@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Support\Facades\Storage;
+
 
 class PostController extends Controller
 {
@@ -27,7 +29,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.create');
     }
 
     /**
@@ -38,7 +40,17 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $newPost = new Post();
+        $newPost -> title = $data["title"];
+        $newPost -> author = $data["author"];
+        $newPost -> content = $data["content"];
+       /*  $newPost -> img_url = $data["img_url"]; */
+        $newPost-> img_url = Storage::put('uploads', $data['image_url']);
+        $newPost->save();
+
+        return redirect()->route('admin.posts.show', $newPost->id);
     }
 
     /**
