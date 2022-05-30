@@ -36,6 +36,8 @@ Route::middleware('auth')->namespace('Admin')->prefix('admin')->name('admin.')->
     Route::resource('posts','PostController');
 });
 
+Route::get('/contacts', 'ContactController@contact')->name('guest.contact');
+
 /* qualunque rotta sbagliata porterà a questa view */
 Route::get("{any?}", function(){
     return view('guest.home');
